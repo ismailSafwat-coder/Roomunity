@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1096109822019",
+    "project_id": "roomunity-3f23e",
+    "storage_bucket": "roomunity-3f23e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096109822019:android:d171e2a6d38551f73644f6",
+        "android_client_info": {
+          "package_name": "com.example.roomunity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096109822019-1kdu7onfv5sq0o9u0oiogrlcce6kmlja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.roomunity",
+            "certificate_hash": "b411885cc32e671da608590f3168e6c1a898a394"
+          }
+        },
+        {
+          "client_id": "1096109822019-0egi6298mddsu0qff4v4cpkldlrt3bit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAujwaK-b_nL-JFpAsSHxjyTKSS3keRb64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1096109822019-0egi6298mddsu0qff4v4cpkldlrt3bit.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1096109822019-m58f7d579nmcbka8m9mnltu45riq890p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.roomunity"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
