@@ -38,24 +38,12 @@ class _MainintropageState extends State<Mainintropage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                TextButton(
-                  child: const Text('Skip',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  onPressed: () {
-                    controller.jumpToPage(2); // Skip to the last page
-                  },
-                ),
-                SmoothPageIndicator(controller: controller, count: 3),
                 isLastPage
                     ? // Show 'Get Started' button only on the last page
                     TextButton(
                         child: const Text('Get Started',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Color.fromRGBO(255, 255, 255, 1),
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             )),
@@ -85,6 +73,28 @@ class _MainintropageState extends State<Mainintropage> {
                           ),
                         ),
                       ),
+                SmoothPageIndicator(
+                  controller: controller,
+                  count: 3,
+                  effect: const ExpandingDotsEffect(
+                    dotWidth: 10,
+                    dotHeight: 10,
+                    activeDotColor: Colors.white,
+                    dotColor: Colors.white30,
+                    expansionFactor: 4,
+                  ),
+                ),
+                TextButton(
+                  child: const Text('Skip',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  onPressed: () {
+                    controller.jumpToPage(2); // Skip to the last page
+                  },
+                ),
               ],
             ),
           )

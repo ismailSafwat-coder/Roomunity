@@ -4,6 +4,7 @@ import 'package:roomunity/core/colors.dart';
 import 'package:roomunity/main.dart';
 import 'package:roomunity/pages/homepage.dart';
 import 'package:roomunity/services/auth/authservices.dart';
+import 'package:roomunity/ui/auth/phone.dart';
 
 class Loginscreen extends StatelessWidget {
   const Loginscreen({super.key});
@@ -38,7 +39,7 @@ class Loginscreen extends StatelessWidget {
                 Hero(
                   tag: 'logo',
                   child: Image.asset(
-                    'images/Roomunity-removebg-preview.png',
+                    'images/Roomunity1.png',
                     height: 220,
                     width: 220,
                   ),
@@ -112,7 +113,12 @@ class Loginscreen extends StatelessWidget {
                         ],
                       ),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PhonePage()));
+                        },
                         icon: const Icon(Icons.phone,
                             size: 40, color: Colors.blue),
                       ),
