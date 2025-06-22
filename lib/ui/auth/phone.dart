@@ -2,6 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:roomunity/core/colors.dart';
 import 'package:roomunity/main.dart';
+import 'package:roomunity/ui/auth/otppage.dart';
 
 class PhonePage extends StatefulWidget {
   const PhonePage({super.key});
@@ -196,7 +197,24 @@ class _PhonePageState extends State<PhonePage> {
               minWidth: width * 0.8,
               height: height * 0.07,
               onPressed: () {
+                if (_phoneController.text.isEmpty ||
+                    _phoneController.text.length <
+                        getMinPhoneLength(selectedcountry)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please enter a valid phone number'),
+                    ),
+                  );
+                  return;
+                }
                 // Add your phone authentication logic here
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return OtpPage(
+                    code: int.parse(selectedcountry.phoneCode),
+                    phoneNumber: int.parse(_phoneController.text),
+                    countryCode: selectedcountry.countryCode,
+                  );
+                }));
               },
               child: Text(
                 'Login',

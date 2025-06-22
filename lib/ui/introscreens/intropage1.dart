@@ -13,8 +13,8 @@ class Intropage1 extends StatelessWidget {
             Colors.black.withOpacity(0.25), // التعتيم هنا
             BlendMode.darken,
           ),
-          child: Image.asset(
-            'images/intropage1.jpg', // تأكد من وجود الصورة في المسار الصحيح
+          child: Image.network(
+            'https://c0.wallpaperflare.com/preview/301/879/586/berlin-germany-oderberger-stra%C3%9Fe-aesthetic.jpg', // تأكد من وجود الصورة في المسار الصحيح
             fit: BoxFit.fill,
             width: double.infinity,
             height: double.infinity,
@@ -22,13 +22,26 @@ class Intropage1 extends StatelessWidget {
         ),
         const Positioned(
           bottom: 200, // المسافة من الأسفل
-          child: Text(
-            'Welcome to Roomunity',
-            style: TextStyle(
-              fontSize: 24,
-              color: Color.fromARGB(255, 216, 210, 210),
-              fontWeight: FontWeight.bold,
-            ),
+          child: Column(
+            children: [
+              Text(
+                'your home journey starts here',
+                style: TextStyle(
+                  fontFamily: 'PlaypenSansArabic',
+                  fontSize: 24,
+                  color: Color.fromARGB(255, 216, 210, 210),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Find your space',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Color.fromARGB(255, 216, 210, 210),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ],

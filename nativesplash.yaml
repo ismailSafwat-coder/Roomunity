@@ -2,8 +2,8 @@ flutter_native_splash:
   android: true
   ios: true
   web: false
-  image: "images/Roomunity1.png" # Correct path (should be in `assets/`)
+  image: "images/Roomunity2.png" # Correct path (should be in `assets/`)
   android_12:
-    image: "images/Roomunity1.png" # Optional (Android 12+ adaptive icon)
+    image: "images/Roomunity2.png" # Optional (Android 12+ adaptive icon)
   color: "#E0F7FA" # Set background color for native splash screen
 

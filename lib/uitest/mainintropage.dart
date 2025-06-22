@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:roomunity/pages/homepage.dart';
+import 'package:roomunity/pages/mainpage.dart';
 import 'package:roomunity/ui/introscreens/intropage1.dart';
 import 'package:roomunity/ui/introscreens/intropage2.dart';
 import 'package:roomunity/ui/introscreens/intropage3.dart';
@@ -117,7 +117,7 @@ class _MainintropageTestState extends State<MainintropageTest> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const Homepage(),
+                                builder: (context) => const Mainpage(),
                               ),
                             );
                           },

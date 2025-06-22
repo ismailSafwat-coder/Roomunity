@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roomunity/core/colors.dart';
 import 'package:roomunity/main.dart';
-import 'package:roomunity/pages/homepage.dart';
+import 'package:roomunity/pages/mainpage.dart';
 import 'package:roomunity/services/auth/authservices.dart';
 import 'package:roomunity/ui/auth/phone.dart';
+import 'package:roomunity/widgets/custombuttom.dart';
 
 class Loginscreen extends StatelessWidget {
   const Loginscreen({super.key});
@@ -135,7 +136,7 @@ class Loginscreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Homepage(),
+                              builder: (context) => const Mainpage(),
                             ),
                           );
                         }
@@ -175,6 +176,17 @@ class Loginscreen extends StatelessWidget {
                         midTextStyle.copyWith(fontSize: 12, color: Colors.grey),
                   ),
                 ),
+
+                Custombuttom(
+                  text: "join as gest",
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const Mainpage(), // Replace with your login widget
+                    ),
+                  ),
+                )
               ],
             ),
           ),

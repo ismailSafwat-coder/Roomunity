@@ -13,8 +13,8 @@ class Intropage3 extends StatelessWidget {
             Colors.black.withOpacity(0.25), // التعتيم هنا
             BlendMode.darken,
           ),
-          child: Image.asset(
-            'images/intropage3.jpg', // تأكد من وجود الصورة في المسار الصحيح
+          child: Image.network(
+            'https://c1.wallpaperflare.com/preview/837/662/369/seminar-meeting-hotel-training.jpg', // تأكد من وجود الصورة في المسار الصحيح
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -22,13 +22,26 @@ class Intropage3 extends StatelessWidget {
         ),
         const Positioned(
           bottom: 200, // المسافة من الأسفل
-          child: Text(
-            'Welcome to Roomunity',
-            style: TextStyle(
-              fontSize: 24,
-              color: Color.fromARGB(255, 216, 210, 210),
-              fontWeight: FontWeight.bold,
-            ),
+          child: Column(
+            children: [
+              Text(
+                ' Learn together ',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Color.fromARGB(255, 216, 210, 210),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Find your focus with learning circles',
+                style: TextStyle(
+                  fontSize: 22,
+                  overflow: TextOverflow.visible,
+                  color: Color.fromARGB(255, 216, 210, 210),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ],
