@@ -180,9 +180,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           prefixIcon: Icon(Icons.wc_outlined, color: maincolor),
                         ),
                         items: const [
-                          DropdownMenuItem(value: 'Male', child: Text('Male')),
+                          DropdownMenuItem(value: 'male', child: Text('Male')),
                           DropdownMenuItem(
-                              value: 'Female', child: Text('Female')),
+                              value: 'female', child: Text('Female')),
                         ],
                         onChanged: (value) {
                           setState(() {

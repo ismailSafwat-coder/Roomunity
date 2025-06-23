@@ -37,13 +37,11 @@ class Loginscreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo Image
-                Hero(
-                  tag: 'logo',
-                  child: Image.asset(
-                    'images/Roomunity1.png',
-                    height: 220,
-                    width: 220,
-                  ),
+
+                Image.asset(
+                  'images/Roomunity1.png',
+                  height: 220,
+                  width: 220,
                 ),
 
                 const SizedBox(height: 30),

@@ -214,31 +214,38 @@ class _MorepageState extends State<Morepage> {
     bool isLogout = false,
     ValueChanged<bool?>? onChanged,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.grey[200]!),
-        ),
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          color: isLogout ? Colors.red : myColors[1],
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: isLogout ? Colors.red : Colors.black,
-            fontWeight: isLogout ? FontWeight.bold : FontWeight.normal,
+    return GestureDetector(
+      onTap: () async {
+        await FirebaseAuth.instance.signOut();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const Loginscreen()));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Colors.grey[200]!),
           ),
         ),
-        trailing: onChanged != null
-            ? Checkbox(
-                value: isChecked,
-                onChanged: onChanged,
-                activeColor: myColors[1],
-              )
-            : const Icon(Icons.chevron_right, color: Colors.grey),
+        child: ListTile(
+          leading: Icon(
+            icon,
+            color: isLogout ? Colors.red : myColors[1],
+          ),
+          title: Text(
+            title,
+            style: TextStyle(
+              color: isLogout ? Colors.red : Colors.black,
+              fontWeight: isLogout ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+          trailing: onChanged != null
+              ? Checkbox(
+                  value: isChecked,
+                  onChanged: onChanged,
+                  activeColor: myColors[1],
+                )
+              : const Icon(Icons.chevron_right, color: Colors.grey),
+        ),
       ),
     );
   }

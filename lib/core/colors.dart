@@ -14,7 +14,7 @@ List<Color> myColors = gender == 'Male'
     ? manecolor
     : gender == "gest"
         ? gest
-        : womanecolor;
+        : womancolor;
 
 List<Color> manecolor = [
   const Color(0xFF07c8f9),
@@ -32,7 +32,7 @@ List<Color> gest = [
   const Color(0xFF054a29),
 ];
 
-List<Color> womanecolor = [
+List<Color> womancolor = [
   const Color(0xFFe27396),
   const Color(0xFFea9ab2),
   const Color(0xFFefcfe3),

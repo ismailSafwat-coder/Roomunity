@@ -15,7 +15,7 @@ class PhonePage extends StatefulWidget {
 
 class _PhonePageState extends State<PhonePage> {
   final TextEditingController _phoneController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   late double width;
   late double height;
   Country selectedcountry = Country(
@@ -77,7 +77,6 @@ class _PhonePageState extends State<PhonePage> {
             fontSize: 40,
             fontWeight: FontWeight.bold,
             color: Colors.white,
-            fontFamily: 'Poppins',
             shadows: [
               Shadow(
                 blurRadius: 5.0,
@@ -243,7 +242,7 @@ class _PhonePageState extends State<PhonePage> {
                         builder: (context) => OtpPage(
                           phoneNumber: int.parse(_phoneController.text.trim()),
                           countryCode: selectedcountry.phoneCode,
-                          verificationId: verificationId, // مهم جدًا
+                          verificationId: verificationId,
                         ),
                       ),
                     );

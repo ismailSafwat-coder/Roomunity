@@ -7,8 +7,9 @@ import 'package:roomunity/ui/auth/formpage.dart';
 import 'package:roomunity/ui/auth/loginscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:roomunity/firebase_options.dart';
+import 'package:roomunity/ui/introscreens/mainintropage.dart';
 
-String gender = 'guest'; // سيتم تعبئته لاحقًا من Firestore
+String gender = 'gest';
 late double deviceheight;
 late double devicewidth;
 
@@ -36,29 +37,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  Future<Widget> checkUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      final uid = user.uid;
-      final snapshot =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-      if (snapshot.exists && snapshot.data() != null) {
-        final data = snapshot.data()!;
-        gender = data['gender'] ?? 'guest';
-        return const Mainpage(); // المستخدم لديه بيانات
-      } else {
-        return UserInfoPage(
-          phoneNumber: user.phoneNumber?.replaceAll('+966', '') ?? '',
-          countryCode: '966',
-        ); // لا توجد بيانات → انتقل لصفحة إدخال البيانات
-      }
-    } else {
-      return const Loginscreen(); // المستخدم غير مسجل دخول
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -68,24 +46,15 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PlaypenSansArabic',
         useMaterial3: true,
       ),
-      home: FutureBuilder<Widget>(
-        future: checkUser(),
-        builder: (context, snapshot) {
-          return AnimatedSplashScreen(
-            splash: "images/introqhd.gif",
-            centered: true,
-            splashIconSize: 2000,
-            duration: 4000,
-            backgroundColor: Colors.black,
-            nextScreen: snapshot.connectionState == ConnectionState.done
-                ? snapshot.data ?? const Loginscreen()
-                : const Scaffold(
-                    backgroundColor: Colors.black,
-                    body: Center(child: CircularProgressIndicator()),
-                  ),
-          );
-        },
-      ),
+      home: FirebaseAuth.instance.currentUser != null
+          ? const Mainpage()
+          : AnimatedSplashScreen(
+              splash: "images/introqhd.gif",
+              centered: true,
+              splashIconSize: 2000,
+              duration: 7000,
+              backgroundColor: Colors.black,
+              nextScreen: const Mainintropage()),
       routes: {
         '/login': (context) => const Loginscreen(),
         '/home': (context) => const Mainpage(),
