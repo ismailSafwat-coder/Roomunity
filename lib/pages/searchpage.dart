@@ -18,6 +18,7 @@ class _SearchpageState extends State<Searchpage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: backgroundcolor,
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -107,8 +108,10 @@ class _SearchpageState extends State<Searchpage> {
                   ],
                 ),
               ),
+
               // the white search bar nipped into the bottom of the appbar
-              bottom: const SearchAppBar(),
+              bottom: const SearchAppBar(), toolbarHeight: 0,
+              collapsedHeight: 0,
             ),
 
             // Kingdom Center Section

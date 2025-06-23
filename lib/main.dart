@@ -1,29 +1,17 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:roomunity/pages/mainpage.dart';
-import 'package:roomunity/pages/morepage.dart';
 import 'package:roomunity/ui/auth/formpage.dart';
 import 'package:roomunity/ui/auth/loginscreen.dart';
-import 'package:roomunity/ui/auth/otppage.dart';
-import 'package:roomunity/ui/auth/phone.dart';
-
-import 'package:roomunity/uitest/phonescreen1.dart';
-import 'package:roomunity/ui/introscreens/mainintropage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:roomunity/firebase_options.dart';
 
-import 'firebase_options.dart';
+String gender = 'guest'; // سيتم تعبئته لاحقًا من Firestore
+late double deviceheight;
+late double devicewidth;
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // Initialize Firebase
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
-}
-
-String gender = 'gest'; //
 const TextStyle midTextStyle = TextStyle(
   fontSize: 17,
   fontWeight: FontWeight.w500,
@@ -35,38 +23,73 @@ const TextStyle commonTextStyle = TextStyle(
   color: Colors.black,
 );
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(const MyApp());
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  Future<Widget> checkUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final uid = user.uid;
+      final snapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      if (snapshot.exists && snapshot.data() != null) {
+        final data = snapshot.data()!;
+        gender = data['gender'] ?? 'guest';
+        return const Mainpage(); // المستخدم لديه بيانات
+      } else {
+        return UserInfoPage(
+          phoneNumber: user.phoneNumber?.replaceAll('+966', '') ?? '',
+          countryCode: '966',
+        ); // لا توجد بيانات → انتقل لصفحة إدخال البيانات
+      }
+    } else {
+      return const Loginscreen(); // المستخدم غير مسجل دخول
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(
-        "height =${MediaQuery.sizeOf(context).height}   &&width = ${MediaQuery.sizeOf(context).width}");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Roomunity',
       theme: ThemeData(
         fontFamily: 'PlaypenSansArabic',
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home: AnimatedSplashScreen(
-      //   splash: "images/introqhd.gif",
-      //   centered: true,
-      //   splashIconSize: 2000,
-      //   duration: 7000,
-      //   nextScreen: const Loginscreen(),
-      //   backgroundColor: Colors.black,
-      // ), // Change this to '/intro' for the intro screen
-      // Change this to MainIntroPage() for the intro screen
-      home: const Mainpage(),
+      home: FutureBuilder<Widget>(
+        future: checkUser(),
+        builder: (context, snapshot) {
+          return AnimatedSplashScreen(
+            splash: "images/introqhd.gif",
+            centered: true,
+            splashIconSize: 2000,
+            duration: 4000,
+            backgroundColor: Colors.black,
+            nextScreen: snapshot.connectionState == ConnectionState.done
+                ? snapshot.data ?? const Loginscreen()
+                : const Scaffold(
+                    backgroundColor: Colors.black,
+                    body: Center(child: CircularProgressIndicator()),
+                  ),
+          );
+        },
+      ),
       routes: {
         '/login': (context) => const Loginscreen(),
-        '/phonescreen': (context) => const PhonePage(),
-        '/formpage': (context) => const UserInfoPage(),
         '/home': (context) => const Mainpage(),
-        '/intro': (context) => const Mainintropage(),
+        // أضف صفحات أخرى حسب الحاجة
       },
     );
   }

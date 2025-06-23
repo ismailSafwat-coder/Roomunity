@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roomunity/pages/mainpage.dart';
+import 'package:roomunity/ui/auth/loginscreen.dart';
 import 'package:roomunity/ui/introscreens/intropage1.dart';
 import 'package:roomunity/ui/introscreens/intropage2.dart';
 import 'package:roomunity/ui/introscreens/intropage3.dart';
@@ -52,7 +53,7 @@ class _MainintropageState extends State<Mainintropage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const Mainpage(), // Replace with your homepage widget
+                                  const Loginscreen(), // Replace with your homepage widget
                             ),
                           );
                         },

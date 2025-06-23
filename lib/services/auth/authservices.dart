@@ -17,7 +17,7 @@ class Authservices {
     String res = 'Some errors occurred';
     try {
       // Force sign-out to always show account chooser
-      await _googleSignIn.signOut();
+      // await _googleSignIn.signOut();
       // Start the Google sign-in process
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 

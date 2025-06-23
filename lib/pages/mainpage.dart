@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:vector_icons/vector_icons.dart';
@@ -5,6 +7,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:roomunity/core/colors.dart';
+import 'package:roomunity/main.dart';
+import 'package:roomunity/pages/lovedpage.dart';
 import 'package:roomunity/pages/morepage.dart';
 import 'package:roomunity/pages/searchpage.dart';
 import 'package:roomunity/pages/searchpage.dart';
@@ -23,16 +27,19 @@ class _MainpageState extends State<Mainpage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   final List<Widget> pages = <Widget>[
     const Searchpage(),
-    const Text(
-      'Likes',
-      style: optionStyle,
-    ),
+    const LovedCardPage(),
     const Text(
       'Search',
       style: optionStyle,
     ),
     const Morepage()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,7 +1,9 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:roomunity/core/colors.dart';
 import 'package:roomunity/main.dart';
+import 'package:roomunity/pages/mainpage.dart';
 import 'package:roomunity/ui/auth/otppage.dart';
 
 class PhonePage extends StatefulWidget {
@@ -17,28 +19,34 @@ class _PhonePageState extends State<PhonePage> {
   late double width;
   late double height;
   Country selectedcountry = Country(
-    phoneCode: '91',
-    countryCode: 'IN',
-    name: 'India',
+    phoneCode: '966',
+    countryCode: 'SA',
+    name: 'Saudi Arabia',
     e164Sc: 0,
     geographic: true,
     level: 1,
-    example: '91 1234567890',
-    displayName: 'India',
-    displayNameNoCountryCode: 'India',
+    example: '5X XXXX XXXX',
+    displayName: 'Saudi Arabia',
+    displayNameNoCountryCode: 'Saudi Arabia',
     e164Key: '',
   );
 
+  final Map<String, int> countryPhoneLengths = {
+    'EG': 10, // Egypt
+    'SA': 9, // Saudi Arabia
+    'IN': 10, // India
+    'US': 10, // USA
+    'AE': 9, // UAE
+    // أضف الدول اللي عايز تدعمها
+  };
+
   int getMinPhoneLength(Country country) {
-    // إزالة أي مسافات أو رموز غير رقمية من example
-    String exampleDigits = country.example.replaceAll(RegExp(r'[^0-9]'), '');
-    // طرح طول كود الدولة (phoneCode) لمعرفة طول الرقم المحلي
-    return exampleDigits.length - country.phoneCode.length;
+    return countryPhoneLengths[country.countryCode] ??
+        6; // افتراضيًا 6 خانات لو غير معروف
   }
 
   int getMaxPhoneLength(Country country) {
-    String exampleDigits = country.example.replaceAll(RegExp(r'[^0-9]'), '');
-    return exampleDigits.length - country.phoneCode.length;
+    return countryPhoneLengths[country.countryCode] ?? 15; // افتراضيًا 15 خانة
   }
 
   @override
@@ -123,7 +131,7 @@ class _PhonePageState extends State<PhonePage> {
             Row(
               children: [
                 SizedBox(
-                  width: width * 0.25,
+                  width: width * 0.27,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 18.0),
                     child: TextFormField(
@@ -169,7 +177,7 @@ class _PhonePageState extends State<PhonePage> {
                 ),
                 const SizedBox(width: 5),
                 SizedBox(
-                  width: width * 0.65,
+                  width: width * 0.62,
                   child: TextFormField(
                     controller: _phoneController,
                     maxLength: getMaxPhoneLength(selectedcountry),
@@ -196,25 +204,52 @@ class _PhonePageState extends State<PhonePage> {
               color: scoundrycolor,
               minWidth: width * 0.8,
               height: height * 0.07,
-              onPressed: () {
+              onPressed: () async {
                 if (_phoneController.text.isEmpty ||
                     _phoneController.text.length <
                         getMinPhoneLength(selectedcountry)) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Please enter a valid phone number'),
-                    ),
+                        content: Text('Please enter a valid phone number')),
                   );
                   return;
                 }
-                // Add your phone authentication logic here
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return OtpPage(
-                    code: int.parse(selectedcountry.phoneCode),
-                    phoneNumber: int.parse(_phoneController.text),
-                    countryCode: selectedcountry.countryCode,
-                  );
-                }));
+
+                final fullPhoneNumber =
+                    '+${selectedcountry.phoneCode}${_phoneController.text.trim()}';
+
+                await FirebaseAuth.instance.verifyPhoneNumber(
+                  phoneNumber: fullPhoneNumber,
+                  timeout: const Duration(seconds: 60),
+                  verificationCompleted:
+                      (PhoneAuthCredential credential) async {
+                    await FirebaseAuth.instance
+                        .signInWithCredential(credential);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const Mainpage())); // Success
+                  },
+                  verificationFailed: (FirebaseAuthException e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('Verification failed: ${e.message}')),
+                    );
+                  },
+                  codeSent: (String verificationId, int? resendToken) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OtpPage(
+                          phoneNumber: int.parse(_phoneController.text.trim()),
+                          countryCode: selectedcountry.phoneCode,
+                          verificationId: verificationId, // مهم جدًا
+                        ),
+                      ),
+                    );
+                  },
+                  codeAutoRetrievalTimeout: (String verificationId) {},
+                );
               },
               child: Text(
                 'Login',

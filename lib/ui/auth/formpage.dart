@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:roomunity/core/colors.dart';
 import 'package:roomunity/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserInfoPage extends StatefulWidget {
-  const UserInfoPage({super.key});
+  final String phoneNumber;
+  final String countryCode;
+  const UserInfoPage(
+      {super.key, required this.phoneNumber, required this.countryCode});
 
   @override
   State<UserInfoPage> createState() => _UserInfoPageState();
@@ -25,10 +30,35 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   String? gender;
 
-  void _submitForm(context) {
+  void _submitForm(BuildContext context) async {
     if (_formKey.currentState?.validate() == true) {
-      // Navigate or save data
-      Navigator.pushReplacementNamed(context, '/home');
+      try {
+        final user = FirebaseAuth.instance.currentUser;
+
+        if (user == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('User not logged in')),
+          );
+          return;
+        }
+
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'firstName': firstNameController.text.trim(),
+          'lastName': lastNameController.text.trim(),
+          'email': emailController.text.trim(),
+          'gender': gender,
+          'phone': widget.phoneNumber,
+          'countryCode': widget.countryCode,
+          'fullPhone': '+${widget.countryCode}${widget.phoneNumber}',
+          'createdAt': FieldValue.serverTimestamp(),
+        });
+
+        Navigator.pushReplacementNamed(context, '/home');
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to save user data: $e')),
+        );
+      }
     }
   }
 
@@ -153,11 +183,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           DropdownMenuItem(value: 'Male', child: Text('Male')),
                           DropdownMenuItem(
                               value: 'Female', child: Text('Female')),
-                          DropdownMenuItem(
-                              value: 'Other', child: Text('Other')),
                         ],
                         onChanged: (value) {
-                          // setState inside stateful widget needed
+                          setState(() {
+                            gender = value;
+                          });
                         },
                         validator: (value) =>
                             value == null ? 'Please select your gender' : null,

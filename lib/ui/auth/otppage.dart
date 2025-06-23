@@ -1,17 +1,21 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:roomunity/pages/mainpage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:roomunity/ui/auth/formpage.dart';
 
 class OtpPage extends StatefulWidget {
-  final int code;
   final int phoneNumber;
   final String countryCode;
+  final String verificationId;
   const OtpPage(
       {super.key,
-      required this.code,
       required this.phoneNumber,
-      required this.countryCode});
+      required this.countryCode,
+      required this.verificationId});
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -69,12 +73,44 @@ class _OtpPageState extends State<OtpPage> {
       return;
     }
 
-    // Simulate API call
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final credential = PhoneAuthProvider.credential(
+        verificationId: widget.verificationId,
+        smsCode: otp,
+      );
 
-    if (otp == "123456") {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      //add here if he have date on firestore go to main page
+
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        final uid = user.uid;
+
+        final doc = await FirebaseFirestore.instance
+            .collection('users') // اسم التجميعة حسب مشروعك
+            .doc(uid)
+            .get();
+
+        if (doc.exists) {
+          // المستخدم لديه بيانات ⇒ انتقل إلى MainPage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const Mainpage()),
+          );
+        } else {
+          // المستخدم لا يملك بيانات ⇒ انتقل إلى صفحة تعبئة البيانات (مثلاً FormPage)
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (_) => UserInfoPage(
+                      phoneNumber: widget.phoneNumber.toString(),
+                      countryCode: widget.countryCode,
+                    )),
+          );
+        }
+      }
+    } catch (e) {
       setState(() {
         _errorMessage = "Invalid OTP. Please try again.";
         _isLoading = false;
@@ -178,7 +214,7 @@ class _OtpPageState extends State<OtpPage> {
                 const SizedBox(height: 4),
 
                 Text(
-                  "+${widget.code} ${widget.phoneNumber}",
+                  "+${widget.countryCode} ${widget.phoneNumber}",
                   style: textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: colorScheme.primary,
