@@ -11,7 +11,7 @@ class Custombuttom extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: myColors[0],
+        backgroundColor: const Color(0xFF5bba6f),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

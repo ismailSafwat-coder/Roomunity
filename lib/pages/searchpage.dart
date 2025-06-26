@@ -170,17 +170,21 @@ class _SearchpageState extends State<Searchpage> {
                     ),
                     const SizedBox(height: 15),
                     SizedBox(
-                      height: 200,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          _buildServiceCard('السيارات', "images/car.png"),
-                          _buildServiceCard('ملازم و كتب', "images/book.png"),
-                          _buildServiceCard(
-                              'رعايه الاطفال', "images/healthcare.png"),
-                          _buildServiceCard(
-                              'مرافق المستشفي', "images/medical.png"),
-                        ],
+                      height: 300,
+                      child: SizedBox(
+                        height: 300,
+                        child: Wrap(
+                          spacing: devicewidth * 0.06,
+                          runSpacing: 10,
+                          children: [
+                            _buildServiceCard('السيارات', "images/car.png"),
+                            _buildServiceCard('ملازم و كتب', "images/book.png"),
+                            _buildServiceCard(
+                                'رعايه الاطفال', "images/healthcare.png"),
+                            _buildServiceCard(
+                                'مرافق المستشفي', "images/medical.png"),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -310,25 +314,24 @@ class _SearchpageState extends State<Searchpage> {
   }
 
   Widget _buildServiceCard(String name, String url) {
-    return Container(
-      // padding: const EdgeInsets.all(10),
-      width: 200, // عرض ثابت لكل البطاقات
-      height: 200,
-      margin: const EdgeInsets.only(right: 15), // مسافة بين البطاقات
+    return SizedBox(
+      width: 160, // Adjusted width to allow two items per row
+
       child: Column(
         children: [
           Container(
-            height: 120, // ارتفاع ثابت لصورة البطاقة
+            height: 100,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Colors.blue[200],
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                url,
-                fit: BoxFit.contain, // لتغطية المساحة المحددة
-                width: double.infinity, // ليملأ العرض بالكامل
+              child: const Icon(
+                Icons.home,
+                size: 60,
+                // color: myColors[1],
               ),
             ),
           ),
@@ -336,7 +339,8 @@ class _SearchpageState extends State<Searchpage> {
           Text(
             name,
             style: commonTextStyle,
-          )
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

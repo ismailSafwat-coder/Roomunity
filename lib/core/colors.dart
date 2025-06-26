@@ -4,15 +4,15 @@ import 'package:roomunity/main.dart';
 var maincolor = const Color(0xFF888F4B);
 var scoundrycolor = const Color(0xFFA9AC67);
 
-Color backgroundcolor = gender == "gest"
+Color backgroundcolor = gender == 'guest'
     ? Colors.white
     : gender == "male"
         ? Colors.white
         : Colors.white;
 
-List<Color> myColors = gender == 'Male'
+List<Color> myColors = gender == 'male'
     ? manecolor
-    : gender == "gest"
+    : gender == 'guest'
         ? gest
         : womancolor;
 

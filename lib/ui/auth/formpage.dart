@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:roomunity/core/colors.dart';
-import 'package:roomunity/main.dart';
+import 'package:roomunity/main.dart' as main;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserInfoPage extends StatefulWidget {
-  final String phoneNumber;
-  final String countryCode;
+  final String? phoneNumber;
+  final String? countryCode;
   const UserInfoPage(
       {super.key, required this.phoneNumber, required this.countryCode});
 
@@ -31,7 +31,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   String? gender;
 
   void _submitForm(BuildContext context) async {
-    if (_formKey.currentState?.validate() == true) {
+    if (_formKey.currentState?.validate() == true && gender != null) {
       try {
         final user = FirebaseAuth.instance.currentUser;
 
@@ -101,7 +101,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
               Text(
                 "Tell Us About You",
-                style: midTextStyle.copyWith(
+                style: main.midTextStyle.copyWith(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: maincolor,
@@ -113,7 +113,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
               Text(
                 "Fill in your info to continue.",
-                style: midTextStyle.copyWith(
+                style: main.midTextStyle.copyWith(
                   fontSize: 16,
                   color: Colors.grey[600],
                 ),
@@ -187,6 +187,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         onChanged: (value) {
                           setState(() {
                             gender = value;
+                            main.gender = gender!;
                           });
                         },
                         validator: (value) =>
@@ -245,7 +246,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 ),
                 child: Text(
                   'Continue',
-                  style: midTextStyle.copyWith(
+                  style: main.midTextStyle.copyWith(
                     fontSize: 18,
                     color: Colors.white,
                   ),
@@ -259,7 +260,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 onPressed: () {},
                 child: Text(
                   'By continuing you agree to our Terms & Conditions',
-                  style: midTextStyle.copyWith(
+                  style: main.midTextStyle.copyWith(
                     fontSize: 12,
                     color: Colors.grey,
                   ),

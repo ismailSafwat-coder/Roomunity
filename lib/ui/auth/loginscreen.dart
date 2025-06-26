@@ -4,6 +4,7 @@ import 'package:roomunity/core/colors.dart';
 import 'package:roomunity/main.dart';
 import 'package:roomunity/pages/mainpage.dart';
 import 'package:roomunity/services/auth/authservices.dart';
+import 'package:roomunity/ui/auth/formpage.dart';
 import 'package:roomunity/ui/auth/phone.dart';
 import 'package:roomunity/widgets/custombuttom.dart';
 
@@ -134,7 +135,10 @@ class Loginscreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Mainpage(),
+                              builder: (context) => const UserInfoPage(
+                                phoneNumber: '',
+                                countryCode: '',
+                              ),
                             ),
                           );
                         }
@@ -176,7 +180,7 @@ class Loginscreen extends StatelessWidget {
                 ),
 
                 Custombuttom(
-                  text: "join as gest",
+                  text: "join as guest",
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
