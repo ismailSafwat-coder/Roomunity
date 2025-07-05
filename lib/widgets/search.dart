@@ -39,9 +39,9 @@ class _SearchAppBarState extends State<SearchAppBar> {
     final duration = daterange.duration;
     return Container(
       color: Colors.transparent,
-      margin: const EdgeInsets.only(right: 16, left: 16, bottom: 0),
+      margin: const EdgeInsets.only(right: 16, left: 16, bottom: 0, top: 0),
       child: Container(
-        height: 48,
+        height: 50,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),

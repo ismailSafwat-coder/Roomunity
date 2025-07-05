@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:roomunity/core/colors.dart';
+import 'package:roomunity/generated/l10n.dart';
 import 'package:roomunity/main.dart';
+import 'package:roomunity/providers/language.dart';
 import 'package:roomunity/ui/auth/loginscreen.dart';
 import 'package:roomunity/widgets/custombuttom.dart';
 
@@ -90,14 +93,15 @@ class _MorepageState extends State<Morepage> {
               children: [
                 const Icon(Icons.lock_outline, size: 100, color: Colors.grey),
                 const SizedBox(height: 20),
-                const Text(
-                  "You need to log in to access this page.",
+                Text(
+                  S.of(context).login_required_message,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 30),
                 Custombuttom(
-                  text: "Login now",
+                  text: S.of(context).login_now,
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const Loginscreen()),
@@ -138,9 +142,9 @@ class _MorepageState extends State<Morepage> {
                       ),
                     ),
                     const SizedBox(height: 5),
-                    const Text(
-                      'عرض الملف الشخصي',
-                      style: TextStyle(
+                    Text(
+                      S.of(context).view_profile,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,
                       ),
@@ -172,31 +176,45 @@ class _MorepageState extends State<Morepage> {
               children: [
                 _buildListItem(
                   icon: Icons.account_balance_wallet,
-                  title: 'Wallet record',
+                  title: S.of(context).wallet_record,
                   isChecked: walletRecord,
                   onChanged: (value) => setState(() => walletRecord = value!),
                 ),
                 _buildListItem(
                   icon: Icons.star_rate,
-                  title: 'Rate us',
+                  title: S.of(context).rate_us,
                   isChecked: rateUs,
                   onChanged: (value) => setState(() => rateUs = value!),
                 ),
                 _buildListItem(
                     icon: Icons.add_home_work,
-                    title: 'Host with us (Add Property)'),
-                _buildListItem(icon: Icons.payment, title: 'Payment methods'),
+                    title: S.of(context).host_with_us),
                 _buildListItem(
-                    icon: Icons.contact_support, title: 'Contact Us'),
-                _buildListItem(icon: Icons.people_alt, title: 'Invite Friends'),
-                _buildListItem(icon: Icons.question_answer, title: 'FAQ'),
-                _buildListItem(icon: Icons.description, title: 'Terms of use'),
+                    icon: Icons.payment, title: S.of(context).payment_methods),
                 _buildListItem(
-                    icon: Icons.privacy_tip, title: 'Privacy policy'),
+                    icon: Icons.contact_support,
+                    title: S.of(context).contact_us),
+                _buildListItem(
+                    icon: Icons.people_alt,
+                    title: S.of(context).invite_friends),
+                _buildListItem(
+                    icon: Icons.question_answer, title: S.of(context).faq),
+                _buildListItem(
+                    icon: Icons.description, title: S.of(context).terms_of_use),
+                _buildListItem(
+                    icon: Icons.privacy_tip,
+                    title: S.of(context).privacy_policy),
                 _buildListItem(
                   icon: Icons.logout,
-                  title: 'Logout',
+                  title: S.of(context).logout,
                   isLogout: true,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.language),
+                  onPressed: () {
+                    Provider.of<LocaleProvider>(context, listen: false)
+                        .toggleLocale();
+                  },
                 ),
               ],
             ),

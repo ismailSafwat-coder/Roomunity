@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roomunity/core/colors.dart';
+import 'package:roomunity/generated/l10n.dart';
 import 'package:roomunity/main.dart' as main;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,13 +32,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
   String? gender;
 
   void _submitForm(BuildContext context) async {
-    if (_formKey.currentState?.validate() == true && gender != null) {
+    if (_formKey.currentState?.validate() == true) {
       try {
         final user = FirebaseAuth.instance.currentUser;
 
         if (user == null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('User not logged in')),
+            SnackBar(content: Text(S.of(context).user_not_logged)),
           );
           return;
         }
@@ -56,7 +57,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         Navigator.pushReplacementNamed(context, '/home');
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save user data: $e')),
+          SnackBar(content: Text('${S.of(context).failed_save_user_data} $e')),
         );
       }
     }
@@ -100,7 +101,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               const SizedBox(height: 20),
 
               Text(
-                "Tell Us About You",
+                S.of(context).tell_us_about_you,
                 style: main.midTextStyle.copyWith(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -112,7 +113,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               const SizedBox(height: 10),
 
               Text(
-                "Fill in your info to continue.",
+                S.of(context).fill_info_to_continue,
                 style: main.midTextStyle.copyWith(
                   fontSize: 16,
                   color: Colors.grey[600],
@@ -144,45 +145,49 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       TextFormField(
                         controller: firstNameController,
                         decoration: InputDecoration(
-                          labelText: 'First Name',
+                          labelText: S.of(context).first_name,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                           prefixIcon:
                               Icon(Icons.person_outline, color: maincolor),
                         ),
-                        validator: (value) =>
-                            value!.isEmpty ? 'Enter your first name' : null,
+                        validator: (value) => value!.isEmpty
+                            ? S.of(context).enter_first_name
+                            : null,
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: lastNameController,
                         decoration: InputDecoration(
-                          labelText: 'Last Name',
+                          labelText: S.of(context).last_name,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                           prefixIcon:
                               Icon(Icons.person_outline, color: maincolor),
                         ),
-                        validator: (value) =>
-                            value!.isEmpty ? 'Enter your last name' : null,
+                        validator: (value) => value!.isEmpty
+                            ? S.of(context).enter_last_name
+                            : null,
                       ),
                       const SizedBox(height: 16),
                       DropdownButtonFormField<String>(
                         value: gender,
-                        hint: const Text("Select Gender"),
+                        hint: Text(S.of(context).select_gender),
                         decoration: InputDecoration(
-                          labelText: 'Gender',
+                          labelText: S.of(context).gender,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                           prefixIcon: Icon(Icons.wc_outlined, color: maincolor),
                         ),
-                        items: const [
-                          DropdownMenuItem(value: 'male', child: Text('Male')),
+                        items: [
                           DropdownMenuItem(
-                              value: 'female', child: Text('Female')),
+                              value: 'male', child: Text(S.of(context).male)),
+                          DropdownMenuItem(
+                              value: 'female',
+                              child: Text(S.of(context).female)),
                         ],
                         onChanged: (value) {
                           setState(() {
@@ -190,15 +195,16 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             main.gender = gender!;
                           });
                         },
-                        validator: (value) =>
-                            value == null ? 'Please select your gender' : null,
+                        validator: (value) => value == null
+                            ? S.of(context).please_select_gender
+                            : null,
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          labelText: 'Email Address',
+                          labelText: S.of(context).email_address,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -206,7 +212,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               Icon(Icons.email_outlined, color: maincolor),
                         ),
                         validator: (value) => !value!.contains('@')
-                            ? 'Enter a valid email'
+                            ? S.of(context).enter_valid_email
                             : null,
                       ),
                       const SizedBox(height: 16),
@@ -214,15 +220,16 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: phoneController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
-                          labelText: 'Phone Number',
+                          labelText: S.of(context).phone_number,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                           prefixIcon:
                               Icon(Icons.phone_outlined, color: maincolor),
                         ),
-                        validator: (value) =>
-                            value!.length < 8 ? 'Enter a valid number' : null,
+                        validator: (value) => value!.length < 8
+                            ? S.of(context).enter_valid_number
+                            : null,
                       ),
                     ],
                   ),
@@ -245,7 +252,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   elevation: 5,
                 ),
                 child: Text(
-                  'Continue',
+                  S.of(context).continueT,
                   style: main.midTextStyle.copyWith(
                     fontSize: 18,
                     color: Colors.white,
@@ -259,7 +266,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               TextButton(
                 onPressed: () {},
                 child: Text(
-                  'By continuing you agree to our Terms & Conditions',
+                  S.of(context).by_continuing,
                   style: main.midTextStyle.copyWith(
                     fontSize: 12,
                     color: Colors.grey,

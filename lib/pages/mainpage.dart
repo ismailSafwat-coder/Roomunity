@@ -9,6 +9,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:roomunity/core/colors.dart';
 import 'package:roomunity/main.dart';
 import 'package:roomunity/pages/lovedpage.dart';
+import 'package:roomunity/pages/mapspage.dart';
 import 'package:roomunity/pages/morepage.dart';
 import 'package:roomunity/pages/searchpage.dart';
 import 'package:roomunity/pages/searchpage.dart';
@@ -32,12 +33,30 @@ class _MainpageState extends State<Mainpage> {
       'Search',
       style: optionStyle,
     ),
+    const Mapspage(),
     const Morepage()
   ];
+  Future<void> fetchGender() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+
+    try {
+      final doc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (doc.exists) {
+        gender = doc.data()?['gender']?.toString().toLowerCase() ?? 'guest';
+        print('Fetched gender: $gender');
+        setState(() {});
+      }
+    } catch (e) {
+      print('Error fetching gender: $e');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    fetchGender();
   }
 
   @override
@@ -54,44 +73,51 @@ class _MainpageState extends State<Mainpage> {
             ],
           ),
           child: SafeArea(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-              child: GNav(
-                rippleColor: Colors.grey[300]!,
-                hoverColor: Colors.grey[100]!,
-                gap: 8,
-                activeColor: myColors[0],
-                tabBackgroundColor: Colors.grey[200]!,
-                iconSize: 24,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                duration: const Duration(milliseconds: 400),
-                color: Colors.black,
-                tabs: const [
-                  GButton(
-                    icon: LineIcons.home,
-                    text: 'Home',
-                  ),
-                  GButton(
-                    icon: LineIcons.heart,
-                    text: 'Likes',
-                  ),
-                  GButton(
-                    icon: LineIcons.search,
-                    text: 'Search',
-                  ),
-                  GButton(
-                    icon: LineIcons.horizontalEllipsis,
-                    text: 'More',
-                  ),
-                ],
-                selectedIndex: _selectedIndex,
-                onTabChange: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+                child: GNav(
+                  rippleColor: Colors.grey[300]!,
+                  hoverColor: Colors.grey[100]!,
+                  gap: 8,
+                  activeColor: myColors[0],
+                  tabBackgroundColor: Colors.grey[200]!,
+                  iconSize: 24,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  duration: const Duration(milliseconds: 400),
+                  color: Colors.black,
+                  tabs: const [
+                    GButton(
+                      icon: LineIcons.home,
+                      text: 'Home',
+                    ),
+                    GButton(
+                      icon: LineIcons.heart,
+                      text: 'Likes',
+                    ),
+                    GButton(
+                      icon: LineIcons.search,
+                      text: 'Search',
+                    ),
+                    GButton(
+                      icon: LineIcons.map,
+                      text: 'maps',
+                    ),
+                    GButton(
+                      icon: LineIcons.horizontalEllipsis,
+                      text: 'More',
+                    ),
+                  ],
+                  selectedIndex: _selectedIndex,
+                  onTabChange: (index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  },
+                ),
               ),
             ),
           ),

@@ -3,14 +3,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:roomunity/pages/departmentdetails.dart';
 import 'package:roomunity/pages/mainpage.dart';
-import 'package:roomunity/ui/auth/formpage.dart';
+import 'package:roomunity/pages/mapspage.dart';
+import 'package:roomunity/providers/language.dart';
+import 'package:roomunity/pyment/payment_page.dart';
+
 import 'package:roomunity/ui/auth/loginscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:roomunity/firebase_options.dart';
 import 'package:roomunity/ui/introscreens/mainintropage.dart';
 import 'generated/l10n.dart';
-import 'package:roomunity/uitest/secoundpage.dart';
+import 'package:roomunity/uitest/detailspage.dart';
+import 'package:roomunity/uitest/chatepage.dart';
 
 late double deviceheight;
 late double devicewidth;
@@ -37,7 +43,12 @@ void main() async {
 
   await fetchGender();
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => LocaleProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 Future<void> fetchGender() async {
@@ -61,39 +72,40 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LocaleProvider>(context);
     deviceheight = MediaQuery.sizeOf(context).height;
     devicewidth = MediaQuery.sizeOf(context).width;
     return MaterialApp(
-      locale: const Locale('en', 'ar'),
-      localizationsDelegates: const [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      debugShowCheckedModeBanner: false,
-      title: 'Roomunity',
-      theme: ThemeData(
-        fontFamily: 'PlaypenSansArabic',
-        useMaterial3: true,
-      ),
-      home:
-          //  ApartmentListingScreen(),
-          AnimatedSplashScreen(
-              splash: "images/introqhd.gif",
-              centered: true,
-              splashIconSize: 2000,
-              duration: 7000,
-              backgroundColor: Colors.black,
-              nextScreen: FirebaseAuth.instance.currentUser != null
-                  ? const Mainpage()
-                  : const Mainintropage()),
-      routes: {
-        '/login': (context) => const Loginscreen(),
-        '/home': (context) => const Mainpage(),
-        // أضف صفحات أخرى حسب الحاجة
-      },
-    );
+        locale: provider.locale,
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        debugShowCheckedModeBanner: false,
+        title: 'Roomunity',
+        theme: ThemeData(
+          fontFamily: 'PlaypenSansArabic',
+          useMaterial3: true,
+        ),
+        home: //
+            RoomDetailsPage()
+        //     AnimatedSplashScreen(
+        //         splash: "images/introqhd.gif",
+        //         centered: true,
+        //         splashIconSize: 2000,
+        //         duration: 7000,
+        //         backgroundColor: Colors.black,
+        //         nextScreen: FirebaseAuth.instance.currentUser != null
+        //             ? const Mainpage()
+        //             : const Mainintropage()),
+        // routes: {
+        //   '/login': (context) => const Loginscreen(),
+        //   '/home': (context) => const Mainpage(),
+        //   //   // أضف صفحات أخرى حسب الحاجة
+        // },
+        );
   }
 }

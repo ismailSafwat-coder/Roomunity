@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roomunity/core/colors.dart';
+import 'package:roomunity/generated/l10n.dart';
 import 'package:roomunity/main.dart';
 import 'package:roomunity/pages/mainpage.dart';
 import 'package:roomunity/services/auth/authservices.dart';
@@ -49,7 +50,7 @@ class Loginscreen extends StatelessWidget {
 
                 // Title Text
                 Text(
-                  'Welcome to Roomunity',
+                  S.of(context).welcome_to_roomunity,
                   style: midTextStyle.copyWith(
                       fontSize: 26,
                       color: maincolor,
@@ -60,7 +61,7 @@ class Loginscreen extends StatelessWidget {
                 const SizedBox(height: 10),
 
                 Text(
-                  'Sign in to continue',
+                  S.of(context).sign_in_to_continue,
                   style: midTextStyle.copyWith(
                       fontSize: 16, color: Colors.grey[700]),
                 ),
@@ -79,7 +80,7 @@ class Loginscreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
                       child: Text(
-                        'Login with',
+                        S.of(context).login_with,
                         style: midTextStyle.copyWith(
                             fontSize: 20, color: maincolor),
                       ),
@@ -173,14 +174,14 @@ class Loginscreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    'By continuing you agree to our Terms & Conditions',
+                    S.of(context).by_continuing,
                     style:
                         midTextStyle.copyWith(fontSize: 12, color: Colors.grey),
                   ),
                 ),
 
                 Custombuttom(
-                  text: "join as guest",
+                  text: S.of(context).join_as_guest,
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(

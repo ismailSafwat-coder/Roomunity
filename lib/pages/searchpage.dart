@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:roomunity/core/colors.dart';
 import 'package:roomunity/core/constent.dart';
 import 'package:roomunity/main.dart';
+
+import 'package:roomunity/generated/l10n.dart';
+import 'package:roomunity/pages/cheatpage.dart';
+import 'package:roomunity/pages/studyrings/firstpage.dart';
+
 import 'package:roomunity/widgets/search.dart';
+
+import '';
 
 class Searchpage extends StatefulWidget {
   const Searchpage({super.key});
@@ -61,22 +68,22 @@ class _SearchpageState extends State<Searchpage> {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                const Column(
+                                Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'مرحبا بك 3386',
-                                      style: TextStyle(
+                                      S.of(context).welcome,
+                                      style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    SizedBox(height: 4),
+                                    const SizedBox(height: 4),
                                     Text(
-                                      'الي اين سوف تسافر ؟',
-                                      style: TextStyle(
+                                      S.of(context).travel,
+                                      style: const TextStyle(
                                         color: Colors.white70,
                                         fontSize: 16,
                                       ),
@@ -94,12 +101,12 @@ class _SearchpageState extends State<Searchpage> {
                           ],
                         )),
                     // bottom-right location label
-                    const Positioned(
+                    Positioned(
                       bottom: 80,
                       right: 16,
                       child: Text(
-                        'Kingdom Center · Riyadh',
-                        style: TextStyle(
+                        S.of(context).location,
+                        style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 14,
                         ),
@@ -110,7 +117,8 @@ class _SearchpageState extends State<Searchpage> {
               ),
 
               // the white search bar nipped into the bottom of the appbar
-              bottom: const SearchAppBar(), toolbarHeight: 0,
+              bottom: const SearchAppBar(), toolbarHeight: 0, titleSpacing: 0,
+              floating: true,
               collapsedHeight: 0,
             ),
 
@@ -121,9 +129,9 @@ class _SearchpageState extends State<Searchpage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'حلقات دراسيه',
-                      style: TextStyle(
+                    Text(
+                      S.of(context).studeyRings,
+                      style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
@@ -137,13 +145,14 @@ class _SearchpageState extends State<Searchpage> {
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          _buildCityCard('جامعة الملك سعود',
+                          _buildCityCard(S.of(context).king_saud_university,
                               "https://static.hiamag.com/styles/1000x1000/public/featured/2017/10/02/6016796-1839130560.jpg"),
                           const SizedBox(width: 20),
-                          _buildCityCard('جامعة الملك عبدالعزيز',
+                          _buildCityCard(
+                              S.of(context).king_abdulaziz_university,
                               "https://static.srpcdigital.com/styles/1037xauto/public/2024-11/855790_0.jpeg.webp"),
                           const SizedBox(width: 20),
-                          _buildCityCard('جامعة الملك فهد',
+                          _buildCityCard(S.of(context).king_fahd_university,
                               "https://www.alluniversity.info/img/uni/0/logo-4751.png"),
                           const SizedBox(width: 20),
                         ],
@@ -160,9 +169,9 @@ class _SearchpageState extends State<Searchpage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'الخدمات',
-                      style: TextStyle(
+                    Text(
+                      S.of(context).services,
+                      style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
@@ -177,12 +186,14 @@ class _SearchpageState extends State<Searchpage> {
                           spacing: devicewidth * 0.06,
                           runSpacing: 10,
                           children: [
-                            _buildServiceCard('السيارات', "images/car.png"),
-                            _buildServiceCard('ملازم و كتب', "images/book.png"),
                             _buildServiceCard(
-                                'رعايه الاطفال', "images/healthcare.png"),
+                                S.of(context).cars, Icons.directions_car),
                             _buildServiceCard(
-                                'مرافق المستشفي', "images/medical.png"),
+                                S.of(context).books_and_notes, Icons.menu_book),
+                            _buildServiceCard(
+                                S.of(context).child_care, Icons.child_care),
+                            _buildServiceCard(S.of(context).hospital_assistance,
+                                Icons.local_hospital),
                           ],
                         ),
                       ),
@@ -199,9 +210,9 @@ class _SearchpageState extends State<Searchpage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'مجالس',
-                      style: TextStyle(
+                    Text(
+                      S.of(context).Councils,
+                      style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
@@ -213,16 +224,26 @@ class _SearchpageState extends State<Searchpage> {
                       child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: [
-                          _buildPropertyCard('كره القدم',
-                              "https://media.gemini.media/img/Medium/2018/11/30/2018_11_30_17_50_4_426.jpg"),
-                          _buildPropertyCard('ببجي',
-                              "https://cdn1.epicgames.com/spt-assets/53ec4985296b4facbe3a8d8d019afba9/pubg-battlegrounds-19vwb.jpg"),
-                          _buildPropertyCard('البلوت',
-                              "https://pbs.twimg.com/media/DSVHfm9WsAAFXqc.jpg"),
-                          _buildPropertyCard('الممشي',
-                              "https://static.webteb.net/images/content/slideshowslide_sss_5497_570d5c26ac9-e729-4dd7-9976-64f59bb6b422.jpg"),
-                          _buildPropertyCard('الشطرنج',
-                              "https://c4.wallpaperflare.com/wallpaper/414/915/652/macro-chess-figure-wallpaper-preview.jpg"),
+                          _buildPropertyCard(
+                              S.of(context).football,
+                              "https://media.gemini.media/img/Medium/2018/11/30/2018_11_30_17_50_4_426.jpg",
+                              'football'),
+                          _buildPropertyCard(
+                              S.of(context).pubg,
+                              "https://cdn1.epicgames.com/spt-assets/53ec4985296b4facbe3a8d8d019afba9/pubg-battlegrounds-19vwb.jpg",
+                              'pubg'),
+                          _buildPropertyCard(
+                              S.of(context).baloot,
+                              "https://pbs.twimg.com/media/DSVHfm9WsAAFXqc.jpg",
+                              'baloot'),
+                          _buildPropertyCard(
+                              S.of(context).walkway,
+                              "https://static.webteb.net/images/content/slideshowslide_sss_5497_570d5c26ac9-e729-4dd7-9976-64f59bb6b422.jpg",
+                              'walkway'),
+                          _buildPropertyCard(
+                              S.of(context).chess,
+                              "https://c4.wallpaperflare.com/wallpaper/414/915/652/macro-chess-figure-wallpaper-preview.jpg",
+                              'chess'),
                         ],
                       ),
                     ),
@@ -267,53 +288,72 @@ class _SearchpageState extends State<Searchpage> {
   }
 
   Widget _buildCityCard(String name, String url) {
-    return Column(
-      children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(url),
-          // foregroundColor: Colors.transparent,
-          backgroundColor: Colors.transparent,
-          radius: 50,
-        ),
-        Text(name)
-      ],
-    );
-  }
-
-  Widget _buildPropertyCard(String name, String url) {
-    return Container(
-      // padding: const EdgeInsets.all(10),
-      width: 280, // عرض ثابت لكل البطاقات
-      height: 250,
-      margin: const EdgeInsets.only(right: 15), // مسافة بين البطاقات
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Firstpage(university: name, url: url)));
+      },
       child: Column(
         children: [
-          Container(
-            height: 180, // ارتفاع ثابت لصورة البطاقة
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.blue[200],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.network(
-                url,
-                fit: BoxFit.cover, // لتغطية المساحة المحددة
-                width: double.infinity, // ليملأ العرض بالكامل
-              ),
-            ),
+          CircleAvatar(
+            backgroundImage: NetworkImage(url),
+            // foregroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            radius: 50,
           ),
-          const SizedBox(height: 10),
-          Text(
-            name,
-            style: commonTextStyle,
-          )
+          Text(name)
         ],
       ),
     );
   }
 
-  Widget _buildServiceCard(String name, String url) {
+  Widget _buildPropertyCard(String name, String url, String id) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => GroupChatPage(
+                      roomName: name,
+                      roomId: id,
+                    )));
+      },
+      child: Container(
+        // padding: const EdgeInsets.all(10),
+        width: 280, // عرض ثابت لكل البطاقات
+        height: 250,
+        margin: const EdgeInsets.only(right: 15), // مسافة بين البطاقات
+        child: Column(
+          children: [
+            Container(
+              height: 180, // ارتفاع ثابت لصورة البطاقة
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.blue[200],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  url,
+                  fit: BoxFit.cover, // لتغطية المساحة المحددة
+                  width: double.infinity, // ليملأ العرض بالكامل
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              name,
+              style: commonTextStyle,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildServiceCard(String name, IconData? icon) {
     return SizedBox(
       width: 160, // Adjusted width to allow two items per row
 
@@ -328,10 +368,10 @@ class _SearchpageState extends State<Searchpage> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: const Icon(
-                Icons.home,
+              child: Icon(
+                icon,
                 size: 60,
-                // color: myColors[1],
+                // color: Colors.greenAccent[400],
               ),
             ),
           ),

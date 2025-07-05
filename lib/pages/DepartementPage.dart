@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roomunity/pyment/payment_page.dart';
 import 'package:roomunity/widgets/ApartmentCard.dart';
 
 class DepartementPage extends StatefulWidget {
@@ -195,13 +196,21 @@ class _DepartementPageState extends State<DepartementPage> {
                 child: PageView.builder(
                   itemCount: image.length,
                   itemBuilder: (context, pageIndex) {
-                    return ClipRRect(
-                      borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(16)),
-                      child: Image.network(
-                        image[pageIndex],
-                        fit: BoxFit.cover,
-                        width: double.infinity,
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => const PaymentPage())));
+                      },
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(16)),
+                        child: Image.network(
+                          image[pageIndex],
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
                       ),
                     );
                   },
