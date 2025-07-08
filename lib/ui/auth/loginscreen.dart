@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roomunity/core/colors.dart';
@@ -133,6 +135,29 @@ class Loginscreen extends StatelessWidget {
                         String result =
                             await Authservices().signinWithGoogle(context);
                         if (result == 'succeed') {
+                          if (FirebaseAuth.instance.currentUser != null) {
+                            final uid = FirebaseAuth.instance.currentUser!.uid;
+                            final doc = await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(uid)
+                                .get();
+                            if (doc.exists) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const Mainpage()),
+                              );
+                            } else {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const UserInfoPage(
+                                          phoneNumber: '',
+                                          countryCode: '',
+                                        )),
+                              );
+                            }
+                          }
                           Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -76,36 +76,31 @@ class MyApp extends StatelessWidget {
     deviceheight = MediaQuery.sizeOf(context).height;
     devicewidth = MediaQuery.sizeOf(context).width;
     return MaterialApp(
-        locale: provider.locale,
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        title: 'Roomunity',
-        theme: ThemeData(
-          fontFamily: 'PlaypenSansArabic',
-          useMaterial3: true,
-        ),
-        home: //
-            RoomDetailsPage()
-        //     AnimatedSplashScreen(
-        //         splash: "images/introqhd.gif",
-        //         centered: true,
-        //         splashIconSize: 2000,
-        //         duration: 7000,
-        //         backgroundColor: Colors.black,
-        //         nextScreen: FirebaseAuth.instance.currentUser != null
-        //             ? const Mainpage()
-        //             : const Mainintropage()),
-        // routes: {
-        //   '/login': (context) => const Loginscreen(),
-        //   '/home': (context) => const Mainpage(),
-        //   //   // أضف صفحات أخرى حسب الحاجة
-        // },
-        );
+      locale: provider.locale,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      debugShowCheckedModeBanner: false,
+      title: 'Roomunity',
+      theme: ThemeData(
+        fontFamily: 'PlaypenSansArabic',
+        useMaterial3: true,
+      ),
+      home: //
+          // RoomDetailsPage()
+          AnimatedSplashScreen(
+              splash: "images/introqhd.gif",
+              centered: true,
+              splashIconSize: 2000,
+              duration: 7000,
+              backgroundColor: Colors.black,
+              nextScreen: FirebaseAuth.instance.currentUser != null
+                  ? const Mainpage()
+                  : const Mainintropage()),
+    );
   }
 }
